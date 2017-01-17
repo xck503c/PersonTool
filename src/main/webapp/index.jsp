@@ -12,6 +12,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="${basePath}/PersonTool/f/weather/query?city=beijing">请求</a>
+	<a href="${basePath}/PersonTool/f/weather/index">天气查询</a>
 </body>
 </html>
