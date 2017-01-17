@@ -10,23 +10,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.xck.modules.weather.entity.Weather;
-import com.xck.modules.weather.service.WeatherService;
+import com.xck.modules.weather.entity.NowCity;
+import com.xck.modules.weather.service.NowCityService;
 
 @Controller
-@RequestMapping(value = "/f/weather")
-public class WeatherController {
+@RequestMapping(value="/f/weather/nowCity")
+public class NowCityController extends BaseCityController{
+
 	@Autowired
-	private WeatherService weatherService;
+	private NowCityService nowCityService;
 	
 	@RequestMapping(value="/query", method={RequestMethod.POST, RequestMethod.GET})
 	public String callWeatherApi(HttpServletRequest request, String city, Model model) {
-		String jsonData = weatherService.get(city);
+		String jsonData = nowCityService.get(city);
 		System.out.println(jsonData);
-		List<Weather> list = weatherService.parseJsonData(jsonData);
+		List<NowCity> list = nowCityService.getData(jsonData);
 		
 		model.addAttribute("jsonData", jsonData);
 		model.addAttribute("cityList", list);
-		return "weather";
+		return "weather/weather_now";
 	}
 }
