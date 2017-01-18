@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<body>
 		<div style="text-align: center;">
 			<table border="1">
-				<caption><h2>实时天气</h2></caption>
+				<caption><h2>${city.city}实时天气</h2></caption>
 				<tr>
 					<!-- <td>城市ID</td> -->
 					<td>城市名称</td>
@@ -30,13 +30,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td>风向</td>
 					<td>风力</td>
 					<td>风速(kmph)</td>
+					<td>操作</td>
 				</tr>
-				<c:forEach items="${cityList}" var="city">
 					<tr>
 						<!--<td>${city.id}</td> -->
 						<td>${city.city}</td>
 						<td>${city.cnty}</td>
-						<td>${city.prov}</td>
+						<td>${provC}</td>
 						<td>${city.update}</td>
 						<td>${city.cond}</td>
 						<td>${city.fl}</td>
@@ -49,8 +49,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${city.dir}</td>
 						<td>${city.sc}</td>
 						<td>${city.spd}</td>
+						<td><a href="${basePath}/f/weather/nowCity/index?provC=${provC}&provE=${provE}">返回</a></td>
 					</tr>
-				</c:forEach>
 			</table>
 			<form action="${basePath}/f/weather/nowCity/query" method="post">
 				<table border="1">
