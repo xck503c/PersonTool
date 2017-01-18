@@ -11,7 +11,7 @@ import net.sf.json.JSONObject;
 
 /*
  * 实时城市天气信息 Service
- * @author xck
+ * @author xck503c
  * @version 2017-1-18
  * */
 @Service
