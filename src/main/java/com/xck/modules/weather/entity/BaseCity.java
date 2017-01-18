@@ -3,7 +3,7 @@ package com.xck.modules.weather.entity;
 /*
  * 天气 Entity
  * @author xck503c
- * @version 2017-1-16
+ * @version 2017-1-18
  * */
 public abstract class BaseCity {
 	//basic基本信息

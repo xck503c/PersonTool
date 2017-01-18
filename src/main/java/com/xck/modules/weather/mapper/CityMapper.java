@@ -6,6 +6,11 @@ import com.xck.modules.weather.utils.WeatherUtils;
 
 import net.sf.json.JSONObject;
 
+/*
+ * 对象-数据mapper
+ * @author xck503c
+ * @version 2017-1-18
+ * */
 public class CityMapper {
 	public static NowCity mappingNowCity(JSONObject jsonObj){
 		NowCity nowCity = new NowCity();
