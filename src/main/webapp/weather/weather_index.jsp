@@ -11,9 +11,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Insert title here</title>
+		<script src="/PersonTool/static/Echarts/echarts.min.js"></script>
+		<script src="/PersonTool/static/Echarts/china.js"></script>
 	</head>
 	<body>
-		<form action="${basePath}/PersonTool/f/weather/query" method="post">
+		<form action="${basePath}/PersonTool/f/weather/basicCity/query" method="post">
 			<table border="1" align="center">
 				<tr>
 					<caption><h2>天气查询</h2></caption>
@@ -23,5 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr>
 			</table>
 		</form>
+		<div id="china_map" style="margin: 0 auto;padding:0px;width:1000px;height:500px;"></div>
+		<script src="/PersonTool/static/js/weather_index.js"></script>
 	</body>
 </html>
