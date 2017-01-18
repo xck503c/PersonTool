@@ -13,15 +13,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script src="/PersonTool/static/Echarts/echarts.min.js"></script>
+<script src="/PersonTool/static/Echarts/jquery.js"></script>
 </head>
 <body>
-	<form action="${basePath}/f/weather/query" method="post">
+	<form action="${basePath}/f/weather/basicCity/query" method="post">
 		<table border="1" align="center">
 			<tr>
-				<caption><h2>天气查询</h2></caption>
-				<td>需要查询的城市:</td>
+				<caption>
+					<h2>${provC}天气查询</h2>
+					<input type="hidden" name="provC" value="${provC}">
+					<input id="prov" type="hidden" name="provE" value="${provE}">
+				</caption>
+				<td>${provC}城市搜索:</td>
 				<td><input type="text" name="city"/></td>
 				<td><input type="submit" value="提交"/></td>
+				<td><a href="${basePath}/f/weather/basicCity/index?provC=${provC}&provE=${provE}">返回</a></td>
 			</tr>
 		</table>
 	</form>
@@ -39,11 +46,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td>${city.cnty}</td>
 				<td>${city.prov}</td>
 				<td>
-					<a href="${basePath}/f/weather/nowCity/query?city=${city.id}">实时天气</a>
-					<a href="${basePath}/f/weather/index">返回</a>
+					<a href="${basePath}/f/weather/nowCity/query?city=${city.id}&provC=${provC}&provE=${provE}">实时天气</a>
 				</td>
 			</tr>
 		</c:forEach>
 	</table>
+
 </body>
 </html>
