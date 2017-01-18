@@ -42,9 +42,20 @@ public class CityMapper {
 		BasicCity basicCity = new BasicCity();
 		JSONObject basicObj = jsonObj.getJSONObject("basic");
 		basicCity.setId(WeatherUtils.checkJSONNodeString(basicObj, "id"));
+		System.out.println(basicCity.getId());
 		basicCity.setCity(WeatherUtils.checkJSONNodeString(basicObj, "city"));
 		basicCity.setCnty(WeatherUtils.checkJSONNodeString(basicObj, "cnty"));
 		basicCity.setProv(WeatherUtils.checkJSONNodeString(basicObj, "prow"));
+		return basicCity;
+	}
+	
+	public static BasicCity mappingBasicCityBySource(JSONObject jsonObj){
+		BasicCity basicCity = new BasicCity();
+		basicCity.setId(WeatherUtils.checkJSONNodeString(jsonObj, "id"));
+		basicCity.setCity(WeatherUtils.checkJSONNodeString(jsonObj, "cityZh"));
+		basicCity.setCityEn(WeatherUtils.checkJSONNodeString(jsonObj, "cityEn"));
+		basicCity.setCnty(WeatherUtils.checkJSONNodeString(jsonObj, "countryZh"));
+		basicCity.setProv(WeatherUtils.checkJSONNodeString(jsonObj, "provinceZh"));
 		return basicCity;
 	}
 }
