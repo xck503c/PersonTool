@@ -1,9 +1,5 @@
 package com.xck.modules.weather.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import com.xck.modules.weather.entity.NowCity;
@@ -14,35 +10,49 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /*
- * 实况天气 Service
+ * 实时城市天气信息 Service
  * @author xck
- * @version 2017-1-17
+ * @version 2017-1-18
  * */
 @Service
 public class NowCityService  extends BaseCityService{
 
+	/*
+	 * 实时获取指定城市的天气JSON数据
+	 * @return String JSON字符串
+	 * */
 	@Override
 	public String get(String city) {
 		return WeatherUtils.request(city, "now");
 	}
 
-	public List<NowCity> getData(String jsonData) {
-		return pareseJsonData(jsonData);
+	/*
+	 * 解析数据，并check省份是否正确
+	 * @return NowCity 实时天气数据
+	 * */
+	public NowCity getData(String jsonData, String prov) {
+		NowCity nowCity = pareseJsonData(jsonData);
+		String getProv = nowCity.getProv();
+		if(!getProv.equals(prov) && prov != null){
+			nowCity.setProv(prov);
+			return nowCity;
+		}
+		return nowCity;
 	}
 	
-	public ArrayList<NowCity> pareseJsonData(String jsonData){
-		ArrayList<NowCity> cityList = new ArrayList<NowCity>();
+	/*
+	 * 解析JSON字符串
+	 * @return NowCity
+	 * */
+	public NowCity pareseJsonData(String jsonData){
+		NowCity nowCity = new NowCity();
 		
 		JSONObject json = JSONObject.fromObject(jsonData);
-		JSONArray results = json.getJSONArray("HeWeather5");
+		JSONObject jsonObj = json.getJSONArray("HeWeather5").getJSONObject(0);
 		
-		if(CollectionUtils.isNotEmpty(results)){
-			for (int i=0; i<results.size(); i++){
-				JSONObject jsonObj = results.getJSONObject(i);
-				NowCity nowCity = CityMapper.mappingNowCity(jsonObj);
-				cityList.add(nowCity);
-			}
+		if(!jsonObj.isEmpty()){
+			nowCity = CityMapper.mappingNowCity(jsonObj);
 		}
-		return cityList;
+		return nowCity;
 	}
 }
