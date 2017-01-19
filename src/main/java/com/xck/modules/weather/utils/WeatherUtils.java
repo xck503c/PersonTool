@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.springframework.ui.Model;
+
 import net.sf.json.JSONObject;
 
 public class WeatherUtils {
@@ -62,5 +64,10 @@ public class WeatherUtils {
 			return obj.getDouble(key);
 		}
 		return 0.0;
+	}
+	
+	public static void addModelProvCE(Model model, String provE, String provC){
+		model.addAttribute("provE", provE);
+		model.addAttribute("provC", provC);
 	}
 }
