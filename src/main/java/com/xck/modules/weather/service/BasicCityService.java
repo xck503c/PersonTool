@@ -119,9 +119,9 @@ public class BasicCityService extends BaseCityService{
 			}
 			model.addAttribute("provE", provE);
 			model.addAttribute("provC", provC);
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public boolean query(String city, String provC, String provE,HttpSession session, Model model) {
