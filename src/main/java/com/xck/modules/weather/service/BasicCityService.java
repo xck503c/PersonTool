@@ -49,14 +49,14 @@ public class BasicCityService extends BaseCityService{
 	 * @return List
 	 * */
 	public List<BasicCity> getAllList(String prov) {
-		return pareseJsonFile(prov);
+		return pareseBasicCityJSONData(prov);
 	}
 	
 	/*
 	 * 通过关键字来获取JSON文件中的对应数据
 	 * @return List
 	 * */
-	public ArrayList<BasicCity> pareseJsonFile(String prov){
+	public ArrayList<BasicCity> pareseBasicCityJSONData(String prov){
 		ArrayList<BasicCity> cityList = new ArrayList<BasicCity>();
 		try{
 			InputStream is=BasicCityService.class.getClassLoader().getResourceAsStream("china-city-list.json");
