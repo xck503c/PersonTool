@@ -117,7 +117,7 @@ public class BasicCityService extends BaseCityService{
 				System.out.println("Session添加省份" + provC + provE + "列表");
 				session.setAttribute(key, list);
 			}
-			WeatherUtils.addModelProvCE(model, provE, provC);
+			WeatherUtils.addModelAttribute(model, provE, provC);
 			return true;
 		}
 		return false;
@@ -131,7 +131,7 @@ public class BasicCityService extends BaseCityService{
 			return false;
 		}
 		List<BasicCity> list = getListByCity(city, provList);
-		WeatherUtils.addModelProvCE(model, provE, provC);
+		WeatherUtils.addModelAttribute(model, provE, provC);
 		model.addAttribute("cityList", list);
 		session.setAttribute("cityList", list);
 		return true;

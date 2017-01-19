@@ -1,17 +1,17 @@
 package com.xck.modules.weather.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.xck.modules.weather.entity.NowCity;
 import com.xck.modules.weather.mapper.CityMapper;
 import com.xck.modules.weather.utils.WeatherUtils;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /*
  * 实时城市天气信息 Service
- * @author xck503c
+ * @author xck
  * @version 2017-1-18
  * */
 @Service
@@ -31,7 +31,7 @@ public class NowCityService  extends BaseCityService{
 	 * @return NowCity 实时天气数据
 	 * */
 	public NowCity getData(String jsonData, String prov) {
-		NowCity nowCity = pareseNowJSONData(jsonData);
+		NowCity nowCity = pareseJsonData(jsonData);
 		String getProv = nowCity.getProv();
 		if(!getProv.equals(prov) && prov != null){
 			nowCity.setProv(prov);
@@ -41,10 +41,10 @@ public class NowCityService  extends BaseCityService{
 	}
 	
 	/*
-	 * 解析实时JSON字符串
+	 * 解析JSON字符串
 	 * @return NowCity
 	 * */
-	public NowCity pareseNowJSONData(String jsonData){
+	public NowCity pareseJsonData(String jsonData){
 		NowCity nowCity = new NowCity();
 		
 		JSONObject json = JSONObject.fromObject(jsonData);
@@ -54,15 +54,5 @@ public class NowCityService  extends BaseCityService{
 			nowCity = CityMapper.mappingNowCity(jsonObj);
 		}
 		return nowCity;
-	}
-
-	public void query(String city, String provC, String provE, Model model) {
-		String jsonData = get(city);
-		NowCity nowCity = getData(jsonData, provC);	
-		WeatherUtils.addModelAttribute(model, nowCity, provE, provC);
-	}
-
-	public void returnUp(Model model, String provC, String provE) {
-		WeatherUtils.addModelAttribute(model, provE, provC);
 	}
 }

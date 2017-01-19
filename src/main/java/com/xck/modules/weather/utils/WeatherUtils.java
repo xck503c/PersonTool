@@ -1,14 +1,14 @@
 package com.xck.modules.weather.utils;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.springframework.ui.Model;
+
+import com.xck.modules.weather.entity.NowCity;
 
 import net.sf.json.JSONObject;
 
@@ -63,7 +63,13 @@ public class WeatherUtils {
 		return 0.0;
 	}
 	
-	public static void addModelProvCE(Model model, String provE, String provC){
+	public static void addModelAttribute(Model model, String provE, String provC){
+		model.addAttribute("provE", provE);
+		model.addAttribute("provC", provC);
+	}
+	
+	public static void addModelAttribute(Model model, NowCity nowCity, String provE, String provC){
+		model.addAttribute("city", nowCity);
 		model.addAttribute("provE", provE);
 		model.addAttribute("provC", provC);
 	}

@@ -25,20 +25,14 @@ public class NowCityController extends BaseCityController{
 	private NowCityService nowCityService;
 	
 	@RequestMapping(value="/query", method={RequestMethod.POST, RequestMethod.GET})
-	public String query(HttpServletRequest request, String city, String provC, String provE, Model model) {
-		String jsonData = nowCityService.get(city);
-		NowCity now = nowCityService.getData(jsonData, provC);
-		
-		model.addAttribute("city", now);
-		model.addAttribute("provC", provC);
-		model.addAttribute("provE", provE);
+	public String query(HttpServletRequest request, String city, String provC, String provE, Model model) {	
+		nowCityService.query(city, provC, provE, model);
 		return "weather/weather_now";
 	}
 	
 	@RequestMapping(value="/index", method={RequestMethod.POST, RequestMethod.GET})
 	public String returnUp(HttpServletRequest request, String provC, String provE, Model model) {
-		model.addAttribute("provC", provC);
-		model.addAttribute("provE", provE);
+		nowCityService.returnUp(model, provC, provE);
 		 return "redirect:/f/weather/basicCity/selectProv";
 	}
 }
