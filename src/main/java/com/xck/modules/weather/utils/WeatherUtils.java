@@ -21,7 +21,6 @@ public class WeatherUtils {
 		String result = null;
 		StringBuffer sb = new StringBuffer();
 		String httpUrl = WEATHER_URL + type + "?city=" + city + "&key=" + KEY;
-		System.out.println(httpUrl);
 		
 		try {
 			URL url = new URL(httpUrl);
@@ -37,10 +36,8 @@ public class WeatherUtils {
 			}
 			reader.close();
 			result = sb.toString();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch(Exception e){
+			return "request error，try again latter";
 		}
 		return result;
 	}

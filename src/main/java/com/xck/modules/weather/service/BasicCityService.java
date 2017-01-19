@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
 public class BasicCityService extends BaseCityService{
 
 	/*
-	 * 通过city关键字来获取basic城市信息
+	 * 通过city关键字来获取basic城市信息，目前没有使用
 	 * @return String返回查询到的JSON字符串
 	 * */
 	@Override
