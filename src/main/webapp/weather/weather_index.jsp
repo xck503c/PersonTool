@@ -22,6 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td>需要查询的城市:</td>
 					<td><input type="text" name="city"/></td>
 					<td><input type="submit" value="提交"/></td>
+					<td>${msg}</td>
 				</tr>
 			</table>
 		</form>

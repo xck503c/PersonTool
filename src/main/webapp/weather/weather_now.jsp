@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${city.dir}</td>
 						<td>${city.sc}</td>
 						<td>${city.spd}</td>
-						<td><a href="${basePath}/f/weather/nowCity/index?provC=${provC}&provE=${provE}">返回</a></td>
+						<td><a href="${basePath}/f/weather/nowCity/returnUp?provC=${provC}&provE=${provE}">返回</a></td>
 					</tr>
 			</table>
 			<form action="${basePath}/f/weather/nowCity/query" method="post">

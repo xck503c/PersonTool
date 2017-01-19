@@ -56,10 +56,15 @@ public class NowCityService  extends BaseCityService{
 		return nowCity;
 	}
 
-	public void query(String city, String provC, String provE, Model model) {
+	public boolean query(String city, String provC, String provE, Model model) {
 		String jsonData = get(city);
+		if(jsonData.equals("error")){
+			model.addAttribute("msg", "request error, try again latter");
+			return false;
+		}
 		NowCity nowCity = getData(jsonData, provC);	
 		WeatherUtils.addModelAttribute(model, nowCity, provE, provC);
+		return true;
 	}
 
 	public void returnUp(Model model, String provC, String provE) {

@@ -26,13 +26,16 @@ public class NowCityController extends BaseCityController{
 	
 	@RequestMapping(value="/query", method={RequestMethod.POST, RequestMethod.GET})
 	public String query(HttpServletRequest request, String city, String provC, String provE, Model model) {	
-		nowCityService.query(city, provC, provE, model);
-		return "weather/weather_now";
+		boolean result = nowCityService.query(city, provC, provE, model);
+		if(result){
+			return "weather/weather_now";
+		}
+		return "weather/weather_index";
 	}
 	
-	@RequestMapping(value="/index", method={RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value="/returnUp", method={RequestMethod.POST, RequestMethod.GET})
 	public String returnUp(HttpServletRequest request, String provC, String provE, Model model) {
 		nowCityService.returnUp(model, provC, provE);
-		 return "redirect:/f/weather/basicCity/selectProv";
+		return "redirect:/f/weather/basicCity/prov";
 	}
 }

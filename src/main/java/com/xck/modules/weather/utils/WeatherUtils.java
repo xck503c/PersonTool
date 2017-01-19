@@ -37,7 +37,7 @@ public class WeatherUtils {
 			reader.close();
 			result = sb.toString();
 		} catch(Exception e){
-			return "request error，try again latter";
+			return "error";
 		}
 		return result;
 	}
