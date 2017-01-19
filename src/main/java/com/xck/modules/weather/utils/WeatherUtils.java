@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.ui.Model;
@@ -27,7 +28,7 @@ public class WeatherUtils {
 		String result = null;
 		StringBuffer sb = new StringBuffer();
 		String httpUrl = WEATHER_URL + type + "?city=" + city + "&key=" + KEY;
-		
+		System.out.println(httpUrl);
 		try {
 			URL url = new URL(httpUrl);
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -74,6 +75,12 @@ public class WeatherUtils {
 		model.addAttribute("provC", provC);
 	}
 	
+	public static void addModelAttribute(Model model, List<BasicCity> cityList, String provE, String provC) {
+		model.addAttribute("cityList", cityList);
+		model.addAttribute("provE", provE);
+		model.addAttribute("provC", provC);
+	}
+	
 	public static void addModelAttribute(Model model, NowCity nowCity, String provE, String provC){
 		model.addAttribute("city", nowCity);
 		model.addAttribute("provE", provE);
@@ -84,7 +91,7 @@ public class WeatherUtils {
 	 * 通过关键字来解析JSON文件BasicCity
 	 * @return List
 	 * */
-	public static ArrayList<BasicCity> pareseBasicCityJSONData(String prov){
+	public static ArrayList<BasicCity> pareseBasicCityJSONByProv(String prov){
 		ArrayList<BasicCity> cityList = new ArrayList<BasicCity>();
 		try{
 			InputStream is=BasicCityService.class.getClassLoader().getResourceAsStream("china-city-list.json");
@@ -115,7 +122,7 @@ public class WeatherUtils {
 	 * 解析BasicCity单个城市的JSON数据
 	 * @return ArrayList
 	 * */
-	public static ArrayList<BasicCity> pareseBasicCityJSONData(JSONObject obj){
+	public static ArrayList<BasicCity> pareseBasicCityJSON(JSONObject obj){
 		ArrayList<BasicCity> cityList = new ArrayList<BasicCity>();
 		try{
 			JSONArray results = obj.getJSONArray("HeWeather5");		

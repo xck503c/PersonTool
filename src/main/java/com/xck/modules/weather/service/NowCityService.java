@@ -1,10 +1,20 @@
 package com.xck.modules.weather.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.xck.modules.weather.entity.BasicCity;
 import com.xck.modules.weather.entity.NowCity;
+import com.xck.modules.weather.mapper.CityMapper;
 import com.xck.modules.weather.utils.WeatherUtils;
+
+import net.sf.json.JSONObject;
 
 
 /*
@@ -49,7 +59,15 @@ public class NowCityService  extends BaseCityService{
 		return true;
 	}
 
-	public void returnUp(Model model, String provC, String provE) {
+	public boolean returnUp(HttpServletRequest request, Model model, String city, String provC, String provE) {
+		if(provE == null || provE.trim().equals("")){
+			String json = WeatherUtils.request(city, "search");
+			JSONObject obj = JSONObject.fromObject(json);
+			List<BasicCity> cityList = WeatherUtils.pareseBasicCityJSON(obj);
+			WeatherUtils.addModelAttribute(model, cityList, provE, provC);
+			return false;
+		}
 		WeatherUtils.addModelAttribute(model, provE, provC);
+		return true;
 	}
 }

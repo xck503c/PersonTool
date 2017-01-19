@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.xck.modules.weather.entity.NowCity;
 import com.xck.modules.weather.service.NowCityService;
 
 /*
@@ -32,8 +33,11 @@ public class NowCityController extends BaseCityController{
 	}
 	
 	@RequestMapping(value="/returnUp", method={RequestMethod.POST, RequestMethod.GET})
-	public String returnUp(HttpServletRequest request, String provC, String provE, Model model) {
-		nowCityService.returnUp(model, provC, provE);
-		return "redirect:/f/weather/basicCity/prov";
+	public String returnUp(HttpServletRequest request,String provC, String provE, String city,  Model model) {
+		boolean result = nowCityService.returnUp(request, model, city, provC, provE);
+		if(result){
+			return "redirect:/f/weather/basicCity/prov";
+		}
+		return "weather/weather_city";
 	}
 }

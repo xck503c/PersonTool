@@ -43,7 +43,7 @@ public class BasicCityService extends BaseCityService{
 	 * @return List
 	 * */
 	public List<BasicCity> getAllList(String prov) {
-		return WeatherUtils.pareseBasicCityJSONData(prov);
+		return WeatherUtils.pareseBasicCityJSONByProv(prov);
 	}
 	
 	/*
@@ -98,7 +98,7 @@ public class BasicCityService extends BaseCityService{
 				return false;
 			}
 			JSONObject json = JSONObject.fromObject(data.toString());
-			List<BasicCity> list = WeatherUtils.pareseBasicCityJSONData(json);
+			List<BasicCity> list = WeatherUtils.pareseBasicCityJSON(json);
 			model.addAttribute("cityList", list);
 			return true;
 		}
