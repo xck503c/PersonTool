@@ -5,11 +5,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.ui.Model;
 
+import com.xck.modules.weather.entity.BasicCity;
 import com.xck.modules.weather.entity.NowCity;
+import com.xck.modules.weather.mapper.CityMapper;
+import com.xck.modules.weather.service.BasicCityService;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class WeatherUtils {
@@ -72,5 +78,74 @@ public class WeatherUtils {
 		model.addAttribute("city", nowCity);
 		model.addAttribute("provE", provE);
 		model.addAttribute("provC", provC);
+	}
+	
+	/*
+	 * 通过关键字来解析JSON文件BasicCity
+	 * @return List
+	 * */
+	public static ArrayList<BasicCity> pareseBasicCityJSONData(String prov){
+		ArrayList<BasicCity> cityList = new ArrayList<BasicCity>();
+		try{
+			InputStream is=BasicCityService.class.getClassLoader().getResourceAsStream("china-city-list.json");
+			StringBuilder sb = new StringBuilder();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String temp = null;
+			while((temp = reader.readLine()) != null){
+				sb.append(temp);
+			}
+			JSONObject json = JSONObject.fromObject(sb.toString());
+			JSONArray results = json.getJSONArray(prov);
+			
+			if(CollectionUtils.isNotEmpty(results)){
+				for (int i=0; i<results.size(); i++){
+					JSONObject jsonObj = results.getJSONObject(i);
+					BasicCity basicCity = CityMapper.mappingBasicCityBySource(jsonObj);
+					cityList.add(basicCity);
+				}
+			}
+			return cityList;
+		}catch(Exception e){
+			
+		}
+		return cityList;
+	}
+	
+	/*
+	 * 解析BasicCity单个城市的JSON数据
+	 * @return ArrayList
+	 * */
+	public static ArrayList<BasicCity> pareseBasicCityJSONData(JSONObject obj){
+		ArrayList<BasicCity> cityList = new ArrayList<BasicCity>();
+		try{
+			JSONArray results = obj.getJSONArray("HeWeather5");		
+			if(CollectionUtils.isNotEmpty(results)){
+				for (int i=0; i<results.size(); i++){
+					JSONObject jsonObj = results.getJSONObject(i);
+					BasicCity basicCity = CityMapper.mappingBasicCity(jsonObj);
+					cityList.add(basicCity);
+				}
+			}
+			return cityList;
+		}catch(Exception e){
+			
+		}
+		return cityList;
+	}
+	
+	/*
+	 * 解析NowCity实时JSON字符串
+	 * @return NowCity
+	 * */
+	public static NowCity pareseNowCityJSONData(String jsonData){
+		NowCity nowCity = new NowCity();
+		
+		JSONObject json = JSONObject.fromObject(jsonData);
+		JSONObject jsonObj = json.getJSONArray("HeWeather5").getJSONObject(0);
+		
+		if(!jsonObj.isEmpty()){
+			nowCity = CityMapper.mappingNowCity(jsonObj);
+		}
+		return nowCity;
 	}
 }

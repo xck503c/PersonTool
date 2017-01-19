@@ -4,10 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.xck.modules.weather.entity.NowCity;
-import com.xck.modules.weather.mapper.CityMapper;
 import com.xck.modules.weather.utils.WeatherUtils;
 
-import net.sf.json.JSONObject;
 
 /*
  * 实时城市天气信息 Service
@@ -31,27 +29,11 @@ public class NowCityService  extends BaseCityService{
 	 * @return NowCity 实时天气数据
 	 * */
 	public NowCity getData(String jsonData, String prov) {
-		NowCity nowCity = pareseNowJSONData(jsonData);
+		NowCity nowCity = WeatherUtils.pareseNowCityJSONData(jsonData);
 		String getProv = nowCity.getProv();
 		if(!getProv.equals(prov) && prov != null){
 			nowCity.setProv(prov);
 			return nowCity;
-		}
-		return nowCity;
-	}
-	
-	/*
-	 * 解析实时JSON字符串
-	 * @return NowCity
-	 * */
-	public NowCity pareseNowJSONData(String jsonData){
-		NowCity nowCity = new NowCity();
-		
-		JSONObject json = JSONObject.fromObject(jsonData);
-		JSONObject jsonObj = json.getJSONArray("HeWeather5").getJSONObject(0);
-		
-		if(!jsonObj.isEmpty()){
-			nowCity = CityMapper.mappingNowCity(jsonObj);
 		}
 		return nowCity;
 	}

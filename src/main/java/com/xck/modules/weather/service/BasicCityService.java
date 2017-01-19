@@ -1,22 +1,16 @@
 package com.xck.modules.weather.service;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.xck.modules.weather.entity.BasicCity;
-import com.xck.modules.weather.mapper.CityMapper;
 import com.xck.modules.weather.utils.WeatherUtils;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /*
@@ -49,60 +43,7 @@ public class BasicCityService extends BaseCityService{
 	 * @return List
 	 * */
 	public List<BasicCity> getAllList(String prov) {
-		return pareseBasicCityJSONData(prov);
-	}
-	
-	/*
-	 * 通过关键字来获取JSON文件中的对应数据
-	 * @return List
-	 * */
-	public ArrayList<BasicCity> pareseBasicCityJSONData(String prov){
-		ArrayList<BasicCity> cityList = new ArrayList<BasicCity>();
-		try{
-			InputStream is=BasicCityService.class.getClassLoader().getResourceAsStream("china-city-list.json");
-			StringBuilder sb = new StringBuilder();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			String temp = null;
-			while((temp = reader.readLine()) != null){
-				sb.append(temp);
-			}
-			JSONObject json = JSONObject.fromObject(sb.toString());
-			JSONArray results = json.getJSONArray(prov);
-			
-			if(CollectionUtils.isNotEmpty(results)){
-				for (int i=0; i<results.size(); i++){
-					JSONObject jsonObj = results.getJSONObject(i);
-					BasicCity basicCity = CityMapper.mappingBasicCityBySource(jsonObj);
-					cityList.add(basicCity);
-				}
-			}
-			return cityList;
-		}catch(Exception e){
-			
-		}
-		return cityList;
-	}
-	
-	/*
-	 * 解析单个城市的JSON数据
-	 * @return ArrayList
-	 * */
-	public ArrayList<BasicCity> pareseBasicCityJSONData(JSONObject obj){
-		ArrayList<BasicCity> cityList = new ArrayList<BasicCity>();
-		try{
-			JSONArray results = obj.getJSONArray("HeWeather5");		
-			if(CollectionUtils.isNotEmpty(results)){
-				for (int i=0; i<results.size(); i++){
-					JSONObject jsonObj = results.getJSONObject(i);
-					BasicCity basicCity = CityMapper.mappingBasicCity(jsonObj);
-					cityList.add(basicCity);
-				}
-			}
-			return cityList;
-		}catch(Exception e){
-			
-		}
-		return cityList;
+		return WeatherUtils.pareseBasicCityJSONData(prov);
 	}
 	
 	/*
@@ -157,7 +98,7 @@ public class BasicCityService extends BaseCityService{
 				return false;
 			}
 			JSONObject json = JSONObject.fromObject(data.toString());
-			List<BasicCity> list = pareseBasicCityJSONData(json);
+			List<BasicCity> list = WeatherUtils.pareseBasicCityJSONData(json);
 			model.addAttribute("cityList", list);
 			return true;
 		}
