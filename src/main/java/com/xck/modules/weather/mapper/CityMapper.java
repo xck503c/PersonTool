@@ -47,7 +47,6 @@ public class CityMapper {
 		BasicCity basicCity = new BasicCity();
 		JSONObject basicObj = jsonObj.getJSONObject("basic");
 		basicCity.setId(WeatherUtils.checkJSONNodeString(basicObj, "id"));
-		System.out.println(basicCity.getId());
 		basicCity.setCity(WeatherUtils.checkJSONNodeString(basicObj, "city"));
 		basicCity.setCnty(WeatherUtils.checkJSONNodeString(basicObj, "cnty"));
 		basicCity.setProv(WeatherUtils.checkJSONNodeString(basicObj, "prow"));

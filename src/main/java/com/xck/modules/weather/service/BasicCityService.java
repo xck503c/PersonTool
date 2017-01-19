@@ -84,6 +84,28 @@ public class BasicCityService extends BaseCityService{
 	}
 	
 	/*
+	 * 解析单个城市的JSON数据
+	 * @return ArrayList
+	 * */
+	public ArrayList<BasicCity> pareseBasicCityJSONData(JSONObject obj){
+		ArrayList<BasicCity> cityList = new ArrayList<BasicCity>();
+		try{
+			JSONArray results = obj.getJSONArray("HeWeather5");		
+			if(CollectionUtils.isNotEmpty(results)){
+				for (int i=0; i<results.size(); i++){
+					JSONObject jsonObj = results.getJSONObject(i);
+					BasicCity basicCity = CityMapper.mappingBasicCity(jsonObj);
+					cityList.add(basicCity);
+				}
+			}
+			return cityList;
+		}catch(Exception e){
+			
+		}
+		return cityList;
+	}
+	
+	/*
 	 * 通过关键字city对list里面的城市名进行搜索匹配(中文和拼音)
 	 * @return List返回符合条件的List
 	 * */
@@ -123,7 +145,22 @@ public class BasicCityService extends BaseCityService{
 		return false;
 	}
 
+	/*
+	 * 一个是全省城市查询，一个是单个城市查询
+	 * @return boolean
+	 * */
 	public boolean query(String city, String provC, String provE,HttpSession session, Model model) {
+		if(provC ==  null|| provE == null){
+			String data = get(city);
+			if(data.equals("error") || data == null || data.trim().equals("")){
+				model.addAttribute("msg", "request error");
+				return false;
+			}
+			JSONObject json = JSONObject.fromObject(data.toString());
+			List<BasicCity> list = pareseBasicCityJSONData(json);
+			model.addAttribute("cityList", list);
+			return true;
+		}
 		String key = provE + "allcityList";
 		//如果session里面没有指定省份的城市列表直接返回到index页面重新来
 		List<BasicCity> provList = (List<BasicCity>) session.getAttribute(key);
@@ -133,7 +170,6 @@ public class BasicCityService extends BaseCityService{
 		List<BasicCity> list = getListByCity(city, provList);
 		WeatherUtils.addModelAttribute(model, provE, provC);
 		model.addAttribute("cityList", list);
-		session.setAttribute("cityList", list);
 		return true;
 	}
 
