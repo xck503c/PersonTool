@@ -31,7 +31,7 @@ public class NowCityService  extends BaseCityService{
 	 * @return NowCity 实时天气数据
 	 * */
 	public NowCity getData(String jsonData, String prov) {
-		NowCity nowCity = pareseJsonData(jsonData);
+		NowCity nowCity = pareseNowJSONData(jsonData);
 		String getProv = nowCity.getProv();
 		if(!getProv.equals(prov) && prov != null){
 			nowCity.setProv(prov);
@@ -41,10 +41,10 @@ public class NowCityService  extends BaseCityService{
 	}
 	
 	/*
-	 * 解析JSON字符串
+	 * 解析实时JSON字符串
 	 * @return NowCity
 	 * */
-	public NowCity pareseJsonData(String jsonData){
+	public NowCity pareseNowJSONData(String jsonData){
 		NowCity nowCity = new NowCity();
 		
 		JSONObject json = JSONObject.fromObject(jsonData);
